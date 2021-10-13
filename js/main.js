@@ -16,19 +16,6 @@ function getRandomGeographicalCoordinates(min, max, simbolsAfterComma) {
 }
 getRandomGeographicalCoordinates(1.1, 1.2, 3);
 
-const AUTHOR = [
-  'img/avatars/user01.png',
-  'img/avatars/user02.png',
-  'img/avatars/user03.png',
-  'img/avatars/user04.png',
-  'img/avatars/user05.png',
-  'img/avatars/user06.png',
-  'img/avatars/user07.png',
-  'img/avatars/user08.png',
-  'img/avatars/user09.png',
-  'img/avatars/user10.png',
-];
-
 const title = [
   'Заголовок 1',
   'Заголовок 2',
@@ -84,44 +71,41 @@ const photos = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-  let getArrayfeatures = function(features) {
-    const array = [];
-      while (array.length < getRandomNumber(1, features.length)) {
-        const el = features[getRandomNumber(0, features.length - 1)];
-        if(!array.includes(el)) {
-          array.push(el);
-        }
-    }
-    return array;
-  };
+const getArray = function(array) {
+  return array.slice(0, getRandomNumber(0, array.length));
+};
 
-  let getArrayphotos = function(photos) {
-    const array = [];
-      while (array.length < getRandomNumber(1, photos.length)) {
-        const el = photos[getRandomNumber(0, photos.length - 1)];
-        if(!array.includes(el)) {
-          array.push(el);
-        }
-    }
-    return array;
-  };
-  const createWizard = () => {
-    return {
-      avatar: AUTHOR[getRandomNumber(0, AUTHOR.length - 1 )],
-      offer: {
-        title: title[getRandomNumber(0, title.length - 1 )],
-        address: '{{location.lat}}, {{location.lng}}',
-        price: getRandomNumber(0, Infinity),
-        type: type[getRandomNumber(0, type.length - 1 )],
-        guests: getRandomNumber(0, Infinity),
-        checkin: checkin[getRandomNumber(0, checkin.length - 1 )],
-        checkout: checkout[getRandomNumber(0, checkout.length - 1 )],
-        features: getArrayfeatures(features),
-        description: description[getRandomNumber(0, description.length - 1 )],
-        photos: getArrayphotos(photos)
-      }
-    }
-  };
-  console.log(
-    createWizard()
-  );
+const LOCATION_LAT = getRandomGeographicalCoordinates(35.65000, 35.70000, 5);
+const LOCATION_LNG = getRandomGeographicalCoordinates(139.70000, 139.80000, 5);
+
+function getNormalizeNumber(value) {
+  return value.toString().length > 1 ? value.toString() : `0${value}`;
+}
+
+
+const createAnnouncement = () => ({
+  author: {
+    avatar: `img/avatars/user${  getNormalizeNumber(getRandomNumber(0, 100))  }.png`,
+  },
+  location: {
+    lat: LOCATION_LAT,
+    lng: LOCATION_LNG,
+  },
+  offer: {
+    title: title[getRandomNumber(0, title.length - 1 )],
+    address: `${LOCATION_LAT }, ${  LOCATION_LNG}`,
+    price: getRandomNumber(5000, 100000),
+    type: type[getRandomNumber(0, type.length - 1 )],
+    guests: getRandomNumber(1, 15),
+    checkin: checkin[getRandomNumber(0, checkin.length - 1 )],
+    checkout: checkout[getRandomNumber(0, checkout.length - 1 )],
+    features: getArray(features),
+    description: description[getRandomNumber(0, description.length - 1 )],
+    photos: getArray(photos),
+  },
+});
+
+const similarAnnouncement = Array.from({length: 10}, createAnnouncement);
+
+console.log(similarAnnouncement);
+
