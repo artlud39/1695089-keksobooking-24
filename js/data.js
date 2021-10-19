@@ -80,6 +80,7 @@ const createAnnouncement = () => ({
     address: `${LOCATION_LAT }, ${  LOCATION_LNG}`,
     price: getRandomNumber(5000, 100000),
     type: type[getRandomNumber(0, type.length - 1 )],
+    rooms: getRandomNumber(1, 3),
     guests: getRandomNumber(1, 15),
     checkin: checkin[getRandomNumber(0, checkin.length - 1 )],
     checkout: checkout[getRandomNumber(0, checkout.length - 1 )],
@@ -89,6 +90,6 @@ const createAnnouncement = () => ({
   },
 });
 
-const similarAnnouncement = Array.from({length: 10}, createAnnouncement);
+const createAnnouncements = () => Array.from({length: 10}, createAnnouncement);
 
-export  {similarAnnouncement};
+export  {createAnnouncements};
