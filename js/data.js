@@ -69,7 +69,7 @@ function getNormalizeNumber(value) {
 
 const createAnnouncement = () => ({
   author: {
-    avatar: `img/avatars/user${  getNormalizeNumber(getRandomNumber(0, 100))  }.png`,
+    avatar: `img/avatars/user${  getNormalizeNumber(getRandomNumber(1, 10))  }.png`,
   },
   location: {
     lat: LOCATION_LAT,
