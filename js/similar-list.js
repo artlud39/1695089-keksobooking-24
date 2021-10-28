@@ -1,6 +1,5 @@
 import {createAnnouncements} from './data.js';
 
-const announcementDialog = document.querySelector('#map-canvas');
 const similarAnnouncements = createAnnouncements();
 
 
@@ -68,7 +67,6 @@ const getAnnouncement = function (announcement) {
 
   announcementElement.replaceChild(getPhotoList(),announcementElement.querySelector('.popup__photos'));
   announcementElement.querySelector('.popup__avatar').src = announcement.author.avatar;
-  announcementDialog.appendChild(announcementElement);
 };
 
 
