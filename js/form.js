@@ -7,7 +7,7 @@ const allFormFieldset = adForm.querySelectorAll('fieldset');
 const mapFiltersForm = document.querySelector('.map__filters');
 const mapFilter = mapFiltersForm.querySelectorAll('.map__filter');
 const mapFeatures = mapFiltersForm.querySelector('.map__features');
-
+const addressAnnouncementInput = document.querySelector('#address');
 
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
@@ -92,4 +92,13 @@ const getPageActivate = function () {
 
 getPageActivate();
 
-export {getPageDiactivate,getPageActivate};
+
+const setAddresValue = (value) => {
+  addressAnnouncementInput.value = value;
+};
+setAddresValue();
+
+addressAnnouncementInput.readOnly = true;
+
+export {getPageDiactivate,getPageActivate,setAddresValue};
+
