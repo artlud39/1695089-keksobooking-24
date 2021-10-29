@@ -59,9 +59,15 @@ const getArray = function(array) {
   return array.slice(0, getRandomNumber(0, array.length));
 };
 
-const LOCATION_LAT = getRandomGeographicalCoordinates(35.65000, 35.70000, 5);
-const LOCATION_LNG = getRandomGeographicalCoordinates(139.70000, 139.80000, 5);
 
+const getLocationLat = function () {
+  return getRandomGeographicalCoordinates(35.65000, 35.70000, 5);
+
+};
+const getLocationLng = function () {
+  return getRandomGeographicalCoordinates(139.70000, 139.80000, 5);
+
+};
 function getNormalizeNumber(value) {
   return value.toString().length > 1 ? value.toString() : `0${value}`;
 }
@@ -72,12 +78,12 @@ const createAnnouncement = () => ({
     avatar: `img/avatars/user${  getNormalizeNumber(getRandomNumber(1, 10))  }.png`,
   },
   location: {
-    lat: LOCATION_LAT,
-    lng: LOCATION_LNG,
+    lat: getLocationLat(),
+    lng: getLocationLng(),
   },
   offer: {
     title: title[getRandomNumber(0, title.length - 1 )],
-    address: `${LOCATION_LAT }, ${  LOCATION_LNG}`,
+    address: `${getLocationLat() }, ${  getLocationLng()}`,
     price: getRandomNumber(5000, 100000),
     type: type[getRandomNumber(0, type.length - 1 )],
     rooms: getRandomNumber(1, 3),
@@ -92,4 +98,4 @@ const createAnnouncement = () => ({
 
 const createAnnouncements = () => Array.from({length: 10}, createAnnouncement);
 
-export  {createAnnouncements};
+export  {createAnnouncements,createAnnouncement};

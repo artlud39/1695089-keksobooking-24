@@ -1,4 +1,4 @@
-import {createAnnouncements} from './data.js';
+import {createAnnouncements,createAnnouncement} from './data.js';
 
 const similarAnnouncements = createAnnouncements();
 
@@ -67,15 +67,17 @@ const getAnnouncement = function (announcement) {
 
   announcementElement.replaceChild(getPhotoList(),announcementElement.querySelector('.popup__photos'));
   announcementElement.querySelector('.popup__avatar').src = announcement.author.avatar;
+  return announcementElement;
 };
 
 
-const getSimilarAnnouncements = function (announcementDatas) {
-  announcementDatas.forEach((announcementData) => {
-    getAnnouncement(announcementData);
-  });
-};
+//const getSimilarAnnouncements = function (announcementDatas) {
+// return announcementDatas.forEach((announcementData) => {
+//  getAnnouncement(announcementData);
+//});
+//};
 
-getSimilarAnnouncements(similarAnnouncements);
+//getSimilarAnnouncements(similarAnnouncements);
 
-export  {getSimilarAnnouncements};
+
+export  {getAnnouncement};
