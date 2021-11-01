@@ -8,6 +8,17 @@ const mapFiltersForm = document.querySelector('.map__filters');
 const mapFilter = mapFiltersForm.querySelectorAll('.map__filter');
 const mapFeatures = mapFiltersForm.querySelector('.map__features');
 const addressAnnouncementInput = document.querySelector('#address');
+const typeAnnouncementSelect = document.querySelector('#type');
+const timeInAnnouncementSelect = document.querySelector('#timein');
+const timeOutAnnouncementSelect = document.querySelector('#timeout');
+
+const typeOfPrice = {
+  flat: 1000,
+  bungalow: 0,
+  house: 5000,
+  palace: 10000,
+  hotel: 3000,
+};
 
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
@@ -37,6 +48,19 @@ priceAnnouncementInput.addEventListener('input', () => {
   priceAnnouncementInput.reportValidity();
 });
 
+
+typeAnnouncementSelect.addEventListener('change', () => {
+  priceAnnouncementInput.placeholder = typeOfPrice[typeAnnouncementSelect.value];
+  priceAnnouncementInput.min = typeOfPrice[typeAnnouncementSelect.value];
+});
+
+timeInAnnouncementSelect.addEventListener('change', () => {
+  timeOutAnnouncementSelect.value = timeInAnnouncementSelect.value;
+});
+
+timeOutAnnouncementSelect.addEventListener('change', () => {
+  timeInAnnouncementSelect.value = timeOutAnnouncementSelect.value;
+});
 
 const getCompareRoomsAndGuests = function () {
   const valueRooms = roomNumberAnnouncementSelect.value;
@@ -99,6 +123,7 @@ const setAddresValue = (value) => {
 setAddresValue();
 
 addressAnnouncementInput.readOnly = true;
+
 
 export {getPageDiactivate,getPageActivate,setAddresValue};
 
