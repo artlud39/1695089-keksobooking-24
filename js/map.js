@@ -1,6 +1,6 @@
-import {getPageDiactivate, getPageActivate,setAddresValue} from './form.js';
-import {getAnnouncement} from './similar-list.js';
-import {createAnnouncements} from './data.js';
+import {getPageActivate,setAddresValue} from './form.js';
+import {getSimilarAnnouncement} from './similar-list.js';
+import {getData} from './api.js';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -17,6 +17,7 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
 const mainPin = L.icon({
   iconUrl: '../img/main-pin.svg',
   iconSize: [52, 52],
@@ -55,24 +56,54 @@ const resetAddress = () => {
 };
 resetAddress();
 
-const announcements = createAnnouncements();
-announcements.forEach((announcement) => {
-  const icon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-  const marker = L.marker(
-    {
-      lat: announcement.location.lat,
-      lng: announcement.location.lng,
-    },
-    {
-      icon: icon,
-    },
-  );
+const markerGroup = L.layerGroup().addTo(map);
 
-  marker
-    .addTo(map)
-    .bindPopup(getAnnouncement(announcement));
-});
+const renderAnnouncement =  (announcements) => {
+  announcements.forEach((announcement) => {
+    const icon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    const marker = L.marker(
+      {
+        lat: announcement.location.lat,
+        lng: announcement.location.lng,
+      },
+      {
+        icon: icon,
+      },
+    );
+
+    marker
+      .addTo(markerGroup)
+      .bindPopup(getSimilarAnnouncement(announcement));
+  });
+};
+
+const resetMap = () => {
+  mainMarker.setLatLng({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  });
+  map.setView({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  }, 10);
+};
+
+const removeAdMarkers = () => {
+  markerGroup.clearLayers();
+};
+
+const SIMILAR_ANN_COUNT = 20;
+
+const renderAdMarkers = () => {
+  getData((data) => {
+    renderAnnouncement(data.slice(0, SIMILAR_ANN_COUNT));
+  });
+};
+renderAdMarkers();
+
+export {getAdress,renderAnnouncement,resetAddress,resetMap,removeAdMarkers,renderAdMarkers};
+

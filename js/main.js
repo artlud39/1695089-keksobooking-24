@@ -1,4 +1,8 @@
-import './data.js';
 import './similar-list.js';
-import './form.js';
 import './map.js';
+import './form.js';
+import './api.js';
+import './user-modal.js';
+import './util.js';
+
+
