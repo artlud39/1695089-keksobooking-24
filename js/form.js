@@ -1,3 +1,7 @@
+import {showSuccessMessage,showErrorMessage} from './user-modal.js';
+import {resetAddress,resetMap,removeAdMarkers,renderAdMarkers} from './map.js';
+import {sendData} from './api.js';
+
 const titleAnnouncementInput = document.querySelector('#title');
 const priceAnnouncementInput = document.querySelector('#price');
 const adForm = document.querySelector('.ad-form');
@@ -11,6 +15,8 @@ const addressAnnouncementInput = document.querySelector('#address');
 const typeAnnouncementSelect = document.querySelector('#type');
 const timeInAnnouncementSelect = document.querySelector('#timein');
 const timeOutAnnouncementSelect = document.querySelector('#timeout');
+const resetButton = document.querySelector('.ad-form__reset');
+
 
 const typeOfPrice = {
   flat: 1000,
@@ -100,8 +106,6 @@ const getPageDiactivate = function () {
   mapFeatures.disabled = true;
 };
 
-getPageDiactivate();
-
 const getPageActivate = function () {
   adForm.classList.remove('ad-form--disabled');
   allFormFieldset.forEach((element) => {
@@ -114,16 +118,42 @@ const getPageActivate = function () {
   mapFeatures.disabled = false;
 };
 
-getPageActivate();
-
-
 const setAddresValue = (value) => {
   addressAnnouncementInput.value = value;
 };
-setAddresValue();
 
 addressAnnouncementInput.readOnly = true;
 
+const setUserFormSubmit = (onSuccess, onError) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-export {getPageDiactivate,getPageActivate,setAddresValue};
+    sendData(
+      () => onSuccess(),
+      () => onError(),
+      new FormData(evt.target),
+    );
+  });
+};
 
+const resetForm = function () {
+  adForm.reset();
+  resetAddress();
+  mapFiltersForm.reset();
+  resetMap();
+  removeAdMarkers();
+  renderAdMarkers();
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
+setUserFormSubmit(() => {
+  showSuccessMessage();
+  resetForm();
+},showErrorMessage);
+
+
+export {getPageDiactivate,getPageActivate,setAddresValue,setUserFormSubmit};
