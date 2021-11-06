@@ -1,6 +1,8 @@
 import {getPageActivate,setAddresValue} from './form.js';
 import {getSimilarAnnouncement} from './similar-list.js';
 import {getData} from './api.js';
+import {getFilteredAds} from './filter.js';
+import {debounce} from './util.js';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -58,27 +60,32 @@ resetAddress();
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const renderAnnouncement =  (announcements) => {
-  announcements.forEach((announcement) => {
-    const icon = L.icon({
-      iconUrl: '../img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
-    const marker = L.marker(
-      {
-        lat: announcement.location.lat,
-        lng: announcement.location.lng,
-      },
-      {
-        icon: icon,
-      },
-    );
+const removeAdMarkers = () => {
+  markerGroup.clearLayers();
+};
 
-    marker
-      .addTo(markerGroup)
-      .bindPopup(getSimilarAnnouncement(announcement));
-  });
+const renderAdMarkers =  (announcements) => {
+  announcements
+    .slice()
+    .forEach((announcement) => {
+      const icon = L.icon({
+        iconUrl: '../img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+      const marker = L.marker(
+        {
+          lat: announcement.location.lat,
+          lng: announcement.location.lng,
+        },
+        {
+          icon: icon,
+        },
+      );
+      marker
+        .addTo(markerGroup)
+        .bindPopup(getSimilarAnnouncement(announcement));
+    });
 };
 
 const resetMap = () => {
@@ -92,18 +99,25 @@ const resetMap = () => {
   }, 10);
 };
 
-const removeAdMarkers = () => {
-  markerGroup.clearLayers();
-};
+const onFilterChange = debounce((ads) => {
+  const newAds = getFilteredAds(ads);
+  removeAdMarkers();
+  renderAdMarkers(newAds);
+});
 
-const SIMILAR_ANN_COUNT = 20;
+const filterForm = document.querySelector('.map__filters');
 
-const renderAdMarkers = () => {
+const renderAnnouncement = () => {
   getData((data) => {
-    renderAnnouncement(data.slice(0, SIMILAR_ANN_COUNT));
+    const adsData = data;
+    renderAdMarkers(adsData);
+    filterForm.addEventListener('change', () => {
+      onFilterChange(adsData);
+    });
   });
 };
-renderAdMarkers();
+
+renderAnnouncement();
 
 export {getAdress,renderAnnouncement,resetAddress,resetMap,removeAdMarkers,renderAdMarkers};
 
