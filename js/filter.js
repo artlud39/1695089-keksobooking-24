@@ -66,4 +66,4 @@ const getFilteredAds = (ads) => {
 };
 
 
-export {filterType,getFilteredAds};
+export {getFilteredAds};

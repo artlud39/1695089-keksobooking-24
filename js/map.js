@@ -1,11 +1,11 @@
-import {getPageActivate,setAddresValue} from './form.js';
-import {getSimilarAnnouncement} from './similar-list.js';
 import {getData} from './api.js';
+import {getSimilarAnnouncement} from './similar-list.js';
+import {getPageActivate,setAddresValue} from './form.js';
 import {getFilteredAds} from './filter.js';
 import {debounce} from './util.js';
 
 const SIMILAR_ADD_MARKER = 10;
-const MAP_ZOOM = 12;
+const MAP_ZOOM = 10;
 const TOKYO = {
   lat: 35.6895,
   lng: 139.692,
@@ -47,6 +47,17 @@ const mainMarker = L.marker(
 );
 
 mainMarker.addTo(map);
+
+const resetMap = () => {
+  mainMarker.setLatLng({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  });
+  map.setView({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  }, MAP_ZOOM);
+};
 
 const getAdress = function (address) {
   return `${address.lat.toFixed(5)  },${  address.lng.toFixed(5)}`;
@@ -92,30 +103,18 @@ const removeAdMarkers = () => {
   markerGroup.clearLayers();
 };
 
-const resetMap = () => {
-  mainMarker.setLatLng({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  });
-  map.setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  }, 10);
-};
-
-const onFilterChange = debounce((ads) => {
-  const newAds = getFilteredAds(ads);
+const onFilterChange = debounce((announcement) => {
+  const newAds = getFilteredAds(announcement);
   removeAdMarkers();
   renderAdMarkers(newAds);
 });
 
-
 const renderAnnouncement = () => {
   getData((data) => {
-    const adsData = data;
-    renderAdMarkers(adsData);
+    const announcements = data.slice();
+    renderAdMarkers(announcements);
     filterForm.addEventListener('change', () => {
-      onFilterChange(adsData);
+      onFilterChange(announcements);
     });
   });
 };

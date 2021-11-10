@@ -1,6 +1,6 @@
-import {showSuccessMessage,showErrorMessage} from './user-modal.js';
-import {resetAddress,resetMap,removeAdMarkers,renderAdMarkers} from './map.js';
 import {sendData} from './api.js';
+import {showSuccessMessage,showErrorMessage} from './user-modal.js';
+import {resetAddress,resetMap,removeAdMarkers,renderAnnouncement} from './map.js';
 
 const typeOfPrice = {
   flat: 1000,
@@ -134,13 +134,13 @@ const setUserFormSubmit = (onSuccess, onError) => {
   });
 };
 
-const resetForm = function () {
+const resetForm = () => {
   adForm.reset();
   resetAddress();
   mapFiltersForm.reset();
   resetMap();
   removeAdMarkers();
-  renderAdMarkers();
+  renderAnnouncement();
 };
 
 resetButton.addEventListener('click', (evt) => {
@@ -151,7 +151,7 @@ resetButton.addEventListener('click', (evt) => {
 setUserFormSubmit(() => {
   showSuccessMessage();
   resetForm();
-},showErrorMessage);
+}, showErrorMessage);
 
 
-export {getPageDiactivate,getPageActivate,setAddresValue,setUserFormSubmit};
+export {getPageDiactivate,getPageActivate,setAddresValue};

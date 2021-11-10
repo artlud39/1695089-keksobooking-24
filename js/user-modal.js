@@ -1,16 +1,6 @@
 /* eslint-disable no-use-before-define */
 import {isEscapeKey} from './util.js';
 
-const onPopupEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closePopup();
-  }
-};
-const onPopupClick = () => {
-  closePopup();
-};
-
 const closePopup = () => {
   if (document.querySelector('.success')) {
     document.querySelector('.success').classList.add('hidden');
@@ -19,7 +9,17 @@ const closePopup = () => {
     document.querySelector('.error').classList.add('hidden');
   }
   document.removeEventListener('keydown', onPopupEscKeydown);
-  document.removeEventListener('keydown', onPopupClick);
+  document.removeEventListener('click', onPopupClick);
+};
+
+const onPopupEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+const onPopupClick = () => {
+  closePopup();
 };
 
 const showSuccessMessage = () => {
@@ -41,3 +41,4 @@ const showErrorMessage = () => {
 };
 
 export {showSuccessMessage,showErrorMessage};
+
