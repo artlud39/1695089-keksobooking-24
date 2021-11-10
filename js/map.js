@@ -4,14 +4,23 @@ import {getData} from './api.js';
 import {getFilteredAds} from './filter.js';
 import {debounce} from './util.js';
 
+const SIMILAR_ADD_MARKER = 10;
+const MAP_ZOOM = 12;
+const TOKYO = {
+  lat: 35.6895,
+  lng: 139.692,
+};
+
+const filterForm = document.querySelector('.map__filters');
+
 const map = L.map('map-canvas')
   .on('load', () => {
     getPageActivate();
   })
   .setView({
-    lat: 35.6895,
-    lng: 139.692,
-  }, 10);
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  }, MAP_ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -26,11 +35,6 @@ const mainPin = L.icon({
   iconAnchor: [26, 52],
 });
 
-const TOKYO = {
-  lat: 35.6895,
-  lng: 139.692,
-};
-
 const mainMarker = L.marker(
   {
     lat: TOKYO.lat,
@@ -44,7 +48,6 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-
 const getAdress = function (address) {
   return `${address.lat.toFixed(5)  },${  address.lng.toFixed(5)}`;
 };
@@ -56,17 +59,14 @@ mainMarker.on('moveend', (evt) => {
 const resetAddress = () => {
   setAddresValue(getAdress(mainMarker.getLatLng()));
 };
+
 resetAddress();
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const removeAdMarkers = () => {
-  markerGroup.clearLayers();
-};
-
 const renderAdMarkers =  (announcements) => {
   announcements
-    .slice()
+    .slice(0,SIMILAR_ADD_MARKER)
     .forEach((announcement) => {
       const icon = L.icon({
         iconUrl: '../img/pin.svg',
@@ -88,6 +88,10 @@ const renderAdMarkers =  (announcements) => {
     });
 };
 
+const removeAdMarkers = () => {
+  markerGroup.clearLayers();
+};
+
 const resetMap = () => {
   mainMarker.setLatLng({
     lat: TOKYO.lat,
@@ -105,7 +109,6 @@ const onFilterChange = debounce((ads) => {
   renderAdMarkers(newAds);
 });
 
-const filterForm = document.querySelector('.map__filters');
 
 const renderAnnouncement = () => {
   getData((data) => {
