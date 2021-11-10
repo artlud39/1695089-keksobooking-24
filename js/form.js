@@ -2,6 +2,18 @@ import {showSuccessMessage,showErrorMessage} from './user-modal.js';
 import {resetAddress,resetMap,removeAdMarkers,renderAdMarkers} from './map.js';
 import {sendData} from './api.js';
 
+const typeOfPrice = {
+  flat: 1000,
+  bungalow: 0,
+  house: 5000,
+  palace: 10000,
+  hotel: 3000,
+};
+
+const MIN_NAME_LENGTH = 30;
+const MAX_NAME_LENGTH = 100;
+const MAX_PRICE_VALUE = 1000000;
+
 const titleAnnouncementInput = document.querySelector('#title');
 const priceAnnouncementInput = document.querySelector('#price');
 const adForm = document.querySelector('.ad-form');
@@ -17,19 +29,11 @@ const timeInAnnouncementSelect = document.querySelector('#timein');
 const timeOutAnnouncementSelect = document.querySelector('#timeout');
 const resetButton = document.querySelector('.ad-form__reset');
 
-
-const typeOfPrice = {
-  flat: 1000,
-  bungalow: 0,
-  house: 5000,
-  palace: 10000,
-  hotel: 3000,
+const setAddresValue = (value) => {
+  addressAnnouncementInput.value = value;
 };
 
-const MIN_NAME_LENGTH = 30;
-const MAX_NAME_LENGTH = 100;
-const MAX_PRICE_VALUE = 1000000;
-
+addressAnnouncementInput.readOnly = true;
 
 titleAnnouncementInput.addEventListener('input', () => {
   const valueLength = titleAnnouncementInput.value.length;
@@ -73,7 +77,7 @@ const getCompareRoomsAndGuests = function () {
   const valueGuests = capacityRoomAnnouncementSelect.value;
   if (valueRooms === '1' && valueGuests !== '1') {
     roomNumberAnnouncementSelect.setCustomValidity('1 комната — «для 1 гостя»');
-  } else if (valueRooms === '2' && valueGuests === '0' || valueGuests === '3') {
+  } else if (valueRooms === '2' && (valueGuests === '0' || valueGuests === '3')) {
     roomNumberAnnouncementSelect.setCustomValidity('2 комнаты — «для 2 гостей» или «для 1 гостя»');
   } else if (valueRooms === '3' && valueGuests === '0') {
     roomNumberAnnouncementSelect.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»');
@@ -85,6 +89,7 @@ const getCompareRoomsAndGuests = function () {
   roomNumberAnnouncementSelect.reportValidity();
 };
 
+getCompareRoomsAndGuests();
 
 roomNumberAnnouncementSelect.addEventListener('input', () => {
   getCompareRoomsAndGuests();
@@ -118,16 +123,9 @@ const getPageActivate = function () {
   mapFeatures.disabled = false;
 };
 
-const setAddresValue = (value) => {
-  addressAnnouncementInput.value = value;
-};
-
-addressAnnouncementInput.readOnly = true;
-
 const setUserFormSubmit = (onSuccess, onError) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
     sendData(
       () => onSuccess(),
       () => onError(),
