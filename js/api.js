@@ -1,5 +1,10 @@
+const Urls = {
+  GET: 'https://24.javascript.pages.academy/keksobooking/data',
+  POST: 'https://24.javascript.pages.academy/keksobooking/',
+};
+
 const getData = (onSuccess) => {
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+  fetch(Urls.GET)
     .then((response) => response.json())
     .then((data) => {
       onSuccess(data);
@@ -8,8 +13,7 @@ const getData = (onSuccess) => {
 
 
 const sendData = (onSuccess, onError, body) => {
-  fetch(
-    'https://24.javascript.pages.academy/keksobooking/',
+  fetch(Urls.POST,
     {
       method: 'POST',
       body,
