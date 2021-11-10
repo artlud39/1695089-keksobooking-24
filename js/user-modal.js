@@ -3,10 +3,10 @@ import {isEscapeKey} from './util.js';
 
 const closePopup = () => {
   if (document.querySelector('.success')) {
-    document.querySelector('.success').classList.add('hidden');
+    document.querySelector('.success').remove();
   }
   if (document.querySelector('.error')) {
-    document.querySelector('.error').classList.add('hidden');
+    document.querySelector('.error').remove();
   }
   document.removeEventListener('keydown', onPopupEscKeydown);
   document.removeEventListener('click', onPopupClick);
