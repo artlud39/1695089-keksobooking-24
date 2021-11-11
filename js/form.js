@@ -2,7 +2,7 @@ import {sendData} from './api.js';
 import {showSuccessMessage,showErrorMessage} from './user-modal.js';
 import {resetAddress,resetMap,removeAdMarkers,renderAnnouncement} from './map.js';
 
-const typeOfPrice = {
+const TYPE_OF_PRICE = {
   flat: 1000,
   bungalow: 0,
   house: 5000,
@@ -47,7 +47,6 @@ titleAnnouncementInput.addEventListener('input', () => {
   titleAnnouncementInput.reportValidity();
 });
 
-
 priceAnnouncementInput.addEventListener('input', () => {
   const value = priceAnnouncementInput.value;
   if (value > MAX_PRICE_VALUE) {
@@ -58,10 +57,9 @@ priceAnnouncementInput.addEventListener('input', () => {
   priceAnnouncementInput.reportValidity();
 });
 
-
 typeAnnouncementSelect.addEventListener('change', () => {
-  priceAnnouncementInput.placeholder = typeOfPrice[typeAnnouncementSelect.value];
-  priceAnnouncementInput.min = typeOfPrice[typeAnnouncementSelect.value];
+  priceAnnouncementInput.placeholder = TYPE_OF_PRICE[typeAnnouncementSelect.value];
+  priceAnnouncementInput.min = TYPE_OF_PRICE[typeAnnouncementSelect.value];
 });
 
 timeInAnnouncementSelect.addEventListener('change', () => {
@@ -110,6 +108,7 @@ const getPageDiactivate = function () {
   });
   mapFeatures.disabled = true;
 };
+getPageDiactivate();
 
 const getPageActivate = function () {
   adForm.classList.remove('ad-form--disabled');
@@ -152,6 +151,5 @@ setUserFormSubmit(() => {
   showSuccessMessage();
   resetForm();
 }, showErrorMessage);
-
 
 export {getPageDiactivate,getPageActivate,setAddresValue};

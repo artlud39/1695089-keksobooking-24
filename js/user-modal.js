@@ -31,14 +31,16 @@ const showSuccessMessage = () => {
   document.addEventListener('click', onPopupClick);
 };
 
-const showErrorMessage = () => {
+const showErrorMessage = (message) => {
   const errorTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorMessage = errorTemplate.cloneNode(true);
   errorMessage.style.zIndex = 1000;
+  if (message) {
+    errorMessage.querySelector('p').textContent = message;
+  }
   document.querySelector('main').append(errorMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
   document.addEventListener('click', closePopup);
 };
 
 export {showSuccessMessage,showErrorMessage};
-

@@ -5,5 +5,3 @@ import './form.js';
 import './user-modal.js';
 import './util.js';
 import './filter.js';
-
-
