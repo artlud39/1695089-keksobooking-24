@@ -1,4 +1,5 @@
 import {getData} from './api.js';
+import {showErrorMessage} from './user-modal.js';
 import {getSimilarAnnouncement} from './similar-list.js';
 import {getPageActivate,setAddresValue} from './form.js';
 import {getFilteredAds} from './filter.js';
@@ -12,6 +13,7 @@ const TOKYO = {
 };
 
 const filterForm = document.querySelector('.map__filters');
+const message = 'При загрузке данных с сервера произошла ошибка';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -109,6 +111,10 @@ const onFilterChange = debounce((announcement) => {
   renderAdMarkers(newAds);
 });
 
+const onError = () => {
+  showErrorMessage(message);
+};
+
 const renderAnnouncement = () => {
   getData((data) => {
     const announcements = data.slice();
@@ -116,7 +122,7 @@ const renderAnnouncement = () => {
     filterForm.addEventListener('change', () => {
       onFilterChange(announcements);
     });
-  });
+  },onError);
 };
 
 renderAnnouncement();

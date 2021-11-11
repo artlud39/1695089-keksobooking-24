@@ -5,7 +5,6 @@ const HOUSING_PRICE = {
   middle: 50000,
 };
 
-
 const typeFilter = document.querySelector('#housing-type');
 const priceFilter = document.querySelector('#housing-price');
 const roomFilter = document.querySelector('#housing-rooms');
@@ -64,6 +63,5 @@ const getFilteredAds = (ads) => {
   }
   return filteredAds;
 };
-
 
 export {getFilteredAds};
