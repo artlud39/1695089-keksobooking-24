@@ -5,6 +5,7 @@ import {getPageActivate,setAddresValue} from './form.js';
 import {getFilteredAds} from './filter.js';
 import {debounce} from './util.js';
 
+const TIME_OUT_DELAY = 500;
 const SIMILAR_ADD_MARKER = 10;
 const MAP_ZOOM = 10;
 const TOKYO = {
@@ -107,7 +108,7 @@ const onFilterChange = debounce((announcement) => {
   const newAds = getFilteredAds(announcement);
   removeAdMarkers();
   renderAdMarkers(newAds);
-});
+}, TIME_OUT_DELAY);
 
 const onError = () => {
   showErrorMessage(message);
