@@ -6,17 +6,14 @@ const TYPE_OFFERS = {
   hotel: 'Отель',
 };
 
-const getOfferType = function(type) {
-  return TYPE_OFFERS[type];
-};
+const getOfferType = (type) => TYPE_OFFERS[type];
 
-const getAnnouncementTamplate = function () {
+const getAnnouncementTemplate = () => {
   const similarAnnouncementTemplate = document.querySelector('#card').content.querySelector('.popup');
-  const announcementElement = similarAnnouncementTemplate.cloneNode(true);
-  return announcementElement;
+  return similarAnnouncementTemplate.cloneNode(true);
 };
 
-const removeElement = function (element,offerElement){
+const removeElement = (element,offerElement) => {
   if (element) {
     offerElement.textContent = element;
   } else {
@@ -24,8 +21,8 @@ const removeElement = function (element,offerElement){
   }
 };
 
-const getSimilarAnnouncement = function ({ author: { avatar }, offer: { title, address, price, type, rooms, guests, checkin, checkout, features, description, photos } }) {
-  const announcementElement = getAnnouncementTamplate();
+const getSimilarAnnouncement = ({ author: { avatar }, offer: { title, address, price, type, rooms, guests, checkin, checkout, features, description, photos } }) => {
+  const announcementElement = getAnnouncementTemplate();
   const avatarImg = announcementElement.querySelector('.popup__avatar');
   const offerTitle = announcementElement.querySelector('.popup__title');
   const offerLocation = announcementElement.querySelector('.popup__text--address');
@@ -62,7 +59,7 @@ const getSimilarAnnouncement = function ({ author: { avatar }, offer: { title, a
     offerTime.remove();
   }
   if (features) {
-    const getFeaturesList = function() {
+    const getFeaturesList = () => {
       const featuresContainer = offerFeatures.cloneNode(true);
       const featuresList = featuresContainer.querySelectorAll('.popup__feature');
 
@@ -83,14 +80,14 @@ const getSimilarAnnouncement = function ({ author: { avatar }, offer: { title, a
   }
 
   if (photos) {
-    const getPhotoList = function() {
+    const getPhotoList = () => {
       const photoItem = offerPhotos.querySelector('.popup__photo');
       const photosContainer = offerPhotos.cloneNode(false);
       const photosListFragment = document.createDocumentFragment();
 
-      for (let i = 0; i < photos.length; i++) {
+      for (let el = 0; el < photos.length; el++) {
         const photoElement = photoItem.cloneNode(true);
-        const element = photos[i];
+        const element = photos[el];
         photoElement.src = element;
         photosListFragment.append(photoElement);
       }

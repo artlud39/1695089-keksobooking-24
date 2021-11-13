@@ -70,7 +70,7 @@ timeOutAnnouncementSelect.addEventListener('change', () => {
   timeInAnnouncementSelect.value = timeOutAnnouncementSelect.value;
 });
 
-const getCompareRoomsAndGuests = function () {
+const getCompareRoomsAndGuests = () => {
   const valueRooms = roomNumberAnnouncementSelect.value;
   const valueGuests = capacityRoomAnnouncementSelect.value;
   if (valueRooms === '1' && valueGuests !== '1') {
@@ -97,7 +97,7 @@ capacityRoomAnnouncementSelect.addEventListener('input', () => {
   getCompareRoomsAndGuests();
 });
 
-const getPageDiactivate = function () {
+const getPageDiactivate =  () => {
   adForm.classList.add('ad-form--disabled');
   allFormFieldset.forEach((element) => {
     element.disabled = true;
@@ -110,7 +110,7 @@ const getPageDiactivate = function () {
 };
 getPageDiactivate();
 
-const getPageActivate = function () {
+const getPageActivate =  () => {
   adForm.classList.remove('ad-form--disabled');
   allFormFieldset.forEach((element) => {
     element.disabled = false;
