@@ -25,7 +25,7 @@ const onPopupClick = () => {
 const showSuccessMessage = () => {
   const successTemplate = document.querySelector('#success').content.querySelector('.success');
   const successMessage = successTemplate.cloneNode(true);
-  successMessage.style.zIndex = 1000;
+  successMessage.style.zIndex = '1000';
   document.querySelector('main').append(successMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
   document.addEventListener('click', onPopupClick);
@@ -34,7 +34,7 @@ const showSuccessMessage = () => {
 const showErrorMessage = (message) => {
   const errorTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorMessage = errorTemplate.cloneNode(true);
-  errorMessage.style.zIndex = 1000;
+  errorMessage.style.zIndex = '1000';
   if (message) {
     errorMessage.querySelector('p').textContent = message;
   }

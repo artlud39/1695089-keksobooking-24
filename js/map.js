@@ -61,9 +61,7 @@ const resetMap = () => {
   }, MAP_ZOOM);
 };
 
-const getAdress = function (address) {
-  return `${address.lat.toFixed(5)  },${  address.lng.toFixed(5)}`;
-};
+const getAdress =  (address) => `${address.lat.toFixed(5)  },${  address.lng.toFixed(5)}`;
 
 mainMarker.on('moveend', (evt) => {
   setAddresValue(getAdress(evt.target.getLatLng()));

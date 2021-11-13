@@ -11,11 +11,9 @@ const roomFilter = document.querySelector('#housing-rooms');
 const guestFilter = document.querySelector('#housing-guests');
 const checkboxFeatures = document.querySelectorAll('.map__checkbox');
 
-const filterType = function (announcement) {
-  return (typeFilter.value === announcement.offer.type) || (typeFilter.value === DEFAULT_VALUE);
-};
+const filterType = (announcement) =>  (typeFilter.value === announcement.offer.type) || (typeFilter.value === DEFAULT_VALUE);
 
-const filterPrice = function (announcement) {
+const filterPrice =  (announcement) => {
   switch (priceFilter.value) {
     case 'low':
       return announcement.offer.price < HOUSING_PRICE.min;
@@ -28,13 +26,9 @@ const filterPrice = function (announcement) {
   }
 };
 
-const filterRoomNumber = function (announcement) {
-  return (roomFilter.value === announcement.offer.rooms.toString()) || (roomFilter.value === DEFAULT_VALUE);
-};
+const filterRoomNumber = (announcement) => (roomFilter.value === announcement.offer.rooms.toString()) || (roomFilter.value === DEFAULT_VALUE);
 
-const filterGuestNumber = function (announcement) {
-  return (guestFilter.value === announcement.offer.guests.toString()) || (guestFilter.value === DEFAULT_VALUE);
-};
+const filterGuestNumber = (announcement) => (guestFilter.value === announcement.offer.guests.toString()) || (guestFilter.value === DEFAULT_VALUE);
 
 const filterFeatures = (announcement) => Array.from(checkboxFeatures)
   .every((checkbox) => {
@@ -49,8 +43,8 @@ const filterFeatures = (announcement) => Array.from(checkboxFeatures)
 
 const getFilteredAds = (ads) => {
   const filteredAds = [];
-  for (let i = 0; i < ads.length; i++) {
-    const ad = ads[i];
+  for (let el = 0; el < ads.length; el++) {
+    const ad = ads[el];
     if (
       filterType(ad) &&
       filterPrice(ad) &&
